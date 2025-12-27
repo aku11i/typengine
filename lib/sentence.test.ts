@@ -5,13 +5,9 @@ import { Sentence } from "./sentence.ts";
 
 test("Sentence input returns accepted/completed/remaining", () => {
   const sentence = new Sentence({
-    display: {
-      text: "寿司",
-      reading: "すし",
-    },
-    input: {
-      patterns: ["sushi", "susi"],
-    },
+    text: "寿司",
+    reading: "すし",
+    patterns: ["sushi", "susi"],
   });
 
   assert.deepEqual(sentence.input("s"), {
@@ -38,12 +34,8 @@ test("Sentence input returns accepted/completed/remaining", () => {
 
 test("Sentence completes when any pattern is fully consumed", () => {
   const sentence = new Sentence({
-    display: {
-      text: "a",
-    },
-    input: {
-      patterns: ["a"],
-    },
+    text: "a",
+    patterns: ["a"],
   });
 
   assert.deepEqual(sentence.input("a"), {

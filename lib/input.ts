@@ -1,4 +1,10 @@
-import type { InputResult, SentenceState } from "./sentence.ts";
+import type { SentenceState } from "./sentence.ts";
+
+export type InputResult = {
+  accepted: boolean;
+  completed: boolean;
+  remaining: string[];
+};
 
 export const input = (state: SentenceState, value: string): InputResult => {
   if (state.remainingPatterns.some((pattern) => pattern.length === 0)) {

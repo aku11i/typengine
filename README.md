@@ -8,13 +8,9 @@ Core library for building typing apps/games on any JavaScript runtime.
 import { Sentence } from "typing-engine";
 
 const sentence = new Sentence({
-  display: {
-    text: "寿司",
-    reading: "すし",
-  },
-  input: {
-    patterns: ["sushi", "susi"],
-  },
+  text: "寿司",
+  reading: "すし",
+  patterns: ["sushi", "susi"],
 });
 
 sentence.input("s");

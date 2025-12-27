@@ -1,24 +1,6 @@
 import { input } from "./input.ts";
-
-export type SentenceDisplay = {
-  text: string;
-  reading?: string;
-};
-
-export type SentenceInput = {
-  patterns: string[];
-};
-
-export type SentenceOptions = {
-  display: SentenceDisplay;
-  input: SentenceInput;
-};
-
-export type InputResult = {
-  accepted: boolean;
-  completed: boolean;
-  remaining: string[];
-};
+import type { InputResult } from "./input.ts";
+import type { SentenceDefinition } from "./types.ts";
 
 export type SentenceState = {
   remainingPatterns: string[];
@@ -26,15 +8,13 @@ export type SentenceState = {
 };
 
 export class Sentence {
-  public readonly display: SentenceDisplay;
-  private readonly patterns: string[];
+  public readonly definition: SentenceDefinition;
   private state: SentenceState;
 
-  constructor(options: SentenceOptions) {
-    this.display = options.display;
-    this.patterns = options.input.patterns;
+  constructor(definition: SentenceDefinition) {
+    this.definition = definition;
     this.state = {
-      remainingPatterns: [...this.patterns],
+      remainingPatterns: [...definition.patterns],
       typedValue: "",
     };
   }
@@ -45,5 +25,12 @@ export class Sentence {
 
   get typed(): string {
     return this.state.typedValue;
+  }
+
+  get display(): { text: string; reading?: string } {
+    return {
+      text: this.definition.text,
+      reading: this.definition.reading,
+    };
   }
 }
