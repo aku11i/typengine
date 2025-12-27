@@ -22,3 +22,8 @@
 
 ## Language Policy
 - All source code comments, README, Issues, and PRs must be written in English.
+
+## Development Principles
+- Start small and follow YAGNI: implement only what is required now.
+- Keep code DRY: factor repeated logic into appropriately sized functions.
+- One file per function or class (types are allowed).
