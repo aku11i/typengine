@@ -45,7 +45,7 @@ export class Session {
         accepted: false,
         completed: false,
         sentenceCompleted: false,
-        remaining: result.remaining,
+        remaining: current.remaining,
       };
     }
 
@@ -54,7 +54,7 @@ export class Session {
         accepted: true,
         completed: false,
         sentenceCompleted: false,
-        remaining: result.remaining,
+        remaining: current.remaining,
       };
     }
 
@@ -68,7 +68,7 @@ export class Session {
         accepted: true,
         completed: true,
         sentenceCompleted: true,
-        remaining: result.remaining,
+        remaining: [],
       };
     }
 
@@ -78,7 +78,7 @@ export class Session {
       accepted: true,
       completed: false,
       sentenceCompleted: true,
-      remaining: next.currentCharacter.remaining,
+      remaining: next.remaining,
     };
   }
 

@@ -60,7 +60,7 @@ test("Session advances sentences and auto-starts the next sentence", () => {
     accepted: true,
     completed: true,
     sentenceCompleted: true,
-    remaining: [""],
+    remaining: [],
   });
   assert.equal(session.completed, true);
   assert.deepEqual(events, [

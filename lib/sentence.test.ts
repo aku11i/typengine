@@ -113,3 +113,22 @@ test("Sentence callbacks provide timestamps and keys", () => {
     Date.now = originalNow;
   }
 });
+
+test("Sentence remaining returns remaining readings", () => {
+  const sentence = new Sentence({
+    text: "ab",
+    reading: "ab",
+    characters: [
+      { reading: "a", patterns: ["a"] },
+      { reading: "b", patterns: ["b"] },
+    ],
+  });
+
+  assert.deepEqual(sentence.remaining, ["a", "b"]);
+
+  sentence.input("a");
+  assert.deepEqual(sentence.remaining, ["b"]);
+
+  sentence.input("b");
+  assert.deepEqual(sentence.remaining, []);
+});

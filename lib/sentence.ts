@@ -92,6 +92,16 @@ export class Sentence {
     return current;
   }
 
+  get remaining(): string[] {
+    if (this.state.position >= this.characters.length) {
+      return [];
+    }
+
+    return this.characters
+      .slice(this.state.position)
+      .map((character) => character.definition.reading);
+  }
+
   get display(): { text: string; reading: string } {
     return {
       text: this.definition.text,
