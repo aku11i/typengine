@@ -46,6 +46,7 @@ test("Sentence input returns accepted/completed/remaining", () => {
 test("Sentence completes when any pattern is fully consumed", () => {
   const sentence = new Sentence({
     text: "a",
+    reading: "a",
     characters: [{ reading: "a", patterns: ["a"] }],
   });
 

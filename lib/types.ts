@@ -5,6 +5,6 @@ export type CharacterDefinition = {
 
 export type SentenceDefinition = {
   text: string;
-  reading?: string;
+  reading: string;
   characters: CharacterDefinition[];
 };

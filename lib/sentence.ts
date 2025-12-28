@@ -69,7 +69,7 @@ export class Sentence {
     return this.characters[this.state.position] ?? null;
   }
 
-  get display(): { text: string; reading?: string } {
+  get display(): { text: string; reading: string } {
     return {
       text: this.definition.text,
       reading: this.definition.reading,
