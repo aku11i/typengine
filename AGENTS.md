@@ -33,4 +33,5 @@
 - Start small and follow YAGNI: implement only what is required now.
 - Keep code DRY: factor repeated logic into appropriately sized functions.
 - One file per function or class (types are allowed).
+- Internal helper functions may live in the same file when they are module-private.
 - After implementation, run `pnpm fix`, `pnpm typecheck`, and `pnpm test`.
