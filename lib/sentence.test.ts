@@ -24,7 +24,7 @@ test("Sentence input returns accepted/completed/remaining", () => {
   assert.deepEqual(sentence.input("u"), {
     accepted: true,
     completed: false,
-    remaining: ["shi", "si"],
+    remaining: [""],
   });
   assert.equal(sentence.typed, "su");
 

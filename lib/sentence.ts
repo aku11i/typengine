@@ -68,9 +68,8 @@ export class Sentence {
 
       next.start();
       return {
-        accepted: true,
+        ...result,
         completed: false,
-        remaining: next.remaining,
       };
     }
 

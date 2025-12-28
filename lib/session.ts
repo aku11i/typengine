@@ -78,7 +78,7 @@ export class Session {
       accepted: true,
       completed: false,
       sentenceCompleted: true,
-      remaining: next.remaining,
+      remaining: current.remaining,
     };
   }
 
