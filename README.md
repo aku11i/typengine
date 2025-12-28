@@ -5,13 +5,10 @@ Core library for building typing apps/games on any JavaScript runtime.
 ## Usage (draft)
 
 ```ts
-import { Sentence } from "typing-engine";
+import { Sentence, createJapaneseSentenceDefinition } from "typing-engine";
 
-const sentence = new Sentence({
-  text: "寿司",
-  reading: "すし",
-  patterns: ["sushi", "susi"],
-});
+const definition = createJapaneseSentenceDefinition("寿司", "すし");
+const sentence = new Sentence(definition);
 
 sentence.input("s");
 sentence.input("u");
@@ -21,6 +18,6 @@ const result = sentence.input("i");
 // {
 //   accepted: boolean;   // whether this keystroke was accepted
 //   completed: boolean;  // whether the whole sentence is completed
-//   remaining: string[]; // currently valid patterns (remaining strings)
+//   remaining: string[]; // currently valid patterns for the current character
 // }
 ```
