@@ -21,3 +21,16 @@ const result = sentence.input("i");
 //   remaining: string[]; // currently valid patterns for the current character
 // }
 ```
+
+```ts
+import { Session, Sentence, createJapaneseSentenceDefinition } from "typing-engine";
+
+const sentences = [
+  new Sentence(createJapaneseSentenceDefinition("寿司", "すし")),
+  new Sentence(createJapaneseSentenceDefinition("天ぷら", "てんぷら")),
+];
+
+const session = new Session(sentences);
+session.start();
+session.input("s");
+```
