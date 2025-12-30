@@ -79,11 +79,11 @@ export class Sentence {
         return index;
       }
     }
-    return this.characters.length;
+    return -1;
   }
 
   get completed(): boolean {
-    return this.position >= this.characters.length;
+    return this.position < 0;
   }
 
   get previewPattern(): string {
