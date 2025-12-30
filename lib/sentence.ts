@@ -33,7 +33,7 @@ export class Sentence {
   start(): void {
     const current = this.currentCharacter;
     if (!current) {
-      return;
+      throw new Error("Cannot start an empty sentence.");
     }
     this.options.onSentenceStarted?.({ startedAt: Date.now() });
     current.start();
