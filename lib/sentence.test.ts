@@ -116,15 +116,15 @@ test("Sentence callbacks provide timestamps and keys", () => {
   }
 });
 
-test("Sentence previewPatterns returns character previews", () => {
+test("Sentence previewPattern returns character previews", () => {
   const sentence = new Sentence({
     text: "し",
     reading: "し",
     characters: [{ reading: "し", patterns: ["shi", "si"] }],
   });
 
-  assert.deepEqual(sentence.previewPatterns, ["shi"]);
+  assert.equal(sentence.previewPattern, "shi");
 
   sentence.input("s");
-  assert.deepEqual(sentence.previewPatterns, ["shi"]);
+  assert.equal(sentence.previewPattern, "shi");
 });

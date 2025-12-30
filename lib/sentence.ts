@@ -95,8 +95,8 @@ export class Sentence {
     return this.characters.length;
   }
 
-  get previewPatterns(): string[] {
-    return this.characters.map((character) => character.previewPattern);
+  get previewPattern(): string {
+    return this.characters.map((character) => character.previewPattern).join("");
   }
 
   get display(): { text: string; reading: string } {
