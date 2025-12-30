@@ -36,7 +36,7 @@ export class Character {
     }
 
     this.options.onCharacterTyped?.({ typedAt, key: value });
-    if (result.completed) {
+    if (this.completed) {
       this.options.onCharacterCompleted?.({ completedAt: typedAt });
     }
 

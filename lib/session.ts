@@ -39,22 +39,24 @@ export class Session {
   input(value: string): SessionInputResult {
     const current = this.currentSentence;
     const result = current.input(value);
+    const remaining = current.currentCharacter?.remainingPatterns ?? [];
 
     if (!result.accepted) {
       return {
         accepted: false,
         completed: false,
         sentenceCompleted: false,
-        remaining: result.remaining,
+        remaining,
       };
     }
 
-    if (!result.completed) {
+    const sentenceCompleted = current.currentCharacter === null;
+    if (!sentenceCompleted) {
       return {
         accepted: true,
         completed: false,
         sentenceCompleted: false,
-        remaining: result.remaining,
+        remaining,
       };
     }
 
@@ -68,7 +70,7 @@ export class Session {
         accepted: true,
         completed: true,
         sentenceCompleted: true,
-        remaining: result.remaining,
+        remaining,
       };
     }
 
@@ -78,7 +80,7 @@ export class Session {
       accepted: true,
       completed: false,
       sentenceCompleted: true,
-      remaining: result.remaining,
+      remaining,
     };
   }
 

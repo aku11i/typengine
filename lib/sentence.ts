@@ -44,36 +44,24 @@ export class Sentence {
     if (!current) {
       return {
         accepted: false,
-        completed: true,
-        remaining: [],
       };
     }
 
     const result = current.input(value);
     if (!result.accepted) {
-      return {
-        ...result,
-        completed: false,
-      };
+      return result;
     }
 
-    if (result.completed) {
+    if (current.completed) {
       const completed = this.position >= this.characters.length;
       if (completed) {
         this.options.onSentenceCompleted?.({ completedAt: Date.now() });
       } else {
         this.currentCharacter?.start();
       }
-      return {
-        ...result,
-        completed,
-      };
     }
 
-    return {
-      ...result,
-      completed: false,
-    };
+    return result;
   }
 
   get typed(): string {
