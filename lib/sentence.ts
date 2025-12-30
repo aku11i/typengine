@@ -59,8 +59,13 @@ export class Sentence {
     }
 
     if (result.completed) {
-      const nextPosition = this.findNextIncompletePosition(currentPosition + 1);
-      const next = nextPosition === null ? null : this.characters[nextPosition];
+      let next: Character | null = null;
+      for (let index = currentPosition + 1; index < this.characters.length; index += 1) {
+        if (!this.characters[index].completed) {
+          next = this.characters[index];
+          break;
+        }
+      }
       if (!next) {
         this.options.onSentenceCompleted?.({ completedAt: Date.now() });
         return {
@@ -92,8 +97,12 @@ export class Sentence {
   }
 
   get position(): number {
-    const nextPosition = this.findNextIncompletePosition(0);
-    return nextPosition ?? this.characters.length;
+    for (let index = 0; index < this.characters.length; index += 1) {
+      if (!this.characters[index].completed) {
+        return index;
+      }
+    }
+    return this.characters.length;
   }
 
   get previewPatterns(): string[] {
@@ -105,14 +114,5 @@ export class Sentence {
       text: this.definition.text,
       reading: this.definition.reading,
     };
-  }
-
-  private findNextIncompletePosition(start: number): number | null {
-    for (let index = start; index < this.characters.length; index += 1) {
-      if (!this.characters[index].completed) {
-        return index;
-      }
-    }
-    return null;
   }
 }
