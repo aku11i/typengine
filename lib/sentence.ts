@@ -40,8 +40,7 @@ export class Sentence {
   }
 
   input(value: string): InputResult {
-    const currentPosition = this.position;
-    const current = this.characters[currentPosition] ?? null;
+    const current = this.currentCharacter;
     if (!current) {
       return {
         accepted: false,
