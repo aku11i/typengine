@@ -116,21 +116,15 @@ test("Sentence callbacks provide timestamps and keys", () => {
   }
 });
 
-test("Sentence remaining returns current character patterns", () => {
+test("Sentence previewPatterns returns character previews", () => {
   const sentence = new Sentence({
-    text: "ab",
-    reading: "ab",
-    characters: [
-      { reading: "a", patterns: ["a"] },
-      { reading: "b", patterns: ["b"] },
-    ],
+    text: "し",
+    reading: "し",
+    characters: [{ reading: "し", patterns: ["shi", "si"] }],
   });
 
-  assert.deepEqual(sentence.remaining, ["a"]);
+  assert.deepEqual(sentence.previewPatterns, ["shi"]);
 
-  sentence.input("a");
-  assert.deepEqual(sentence.remaining, ["b"]);
-
-  sentence.input("b");
-  assert.deepEqual(sentence.remaining, []);
+  sentence.input("s");
+  assert.deepEqual(sentence.previewPatterns, ["shi"]);
 });
