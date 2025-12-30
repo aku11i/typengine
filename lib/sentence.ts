@@ -53,7 +53,7 @@ export class Sentence {
     }
 
     if (current.completed) {
-      const completed = this.position >= this.characters.length;
+      const completed = this.completed;
       if (completed) {
         this.options.onSentenceCompleted?.({ completedAt: Date.now() });
       } else {
@@ -80,6 +80,10 @@ export class Sentence {
       }
     }
     return this.characters.length;
+  }
+
+  get completed(): boolean {
+    return this.position >= this.characters.length;
   }
 
   get previewPattern(): string {
