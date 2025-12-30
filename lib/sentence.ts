@@ -99,10 +99,11 @@ export class Sentence {
     return this.characters.map((character) => character.previewPattern).join("");
   }
 
-  get display(): { text: string; reading: string } {
-    return {
-      text: this.definition.text,
-      reading: this.definition.reading,
-    };
+  get text(): string {
+    return this.definition.text;
+  }
+
+  get reading(): string {
+    return this.definition.reading;
   }
 }
