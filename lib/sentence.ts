@@ -92,13 +92,11 @@ export class Sentence {
   }
 
   get remaining(): string[] {
-    if (this.state.position >= this.characters.length) {
+    const current = this.characters[this.state.position];
+    if (!current) {
       return [];
     }
-
-    return this.characters
-      .slice(this.state.position)
-      .map((character) => character.definition.reading);
+    return current.remaining;
   }
 
   get display(): { text: string; reading: string } {

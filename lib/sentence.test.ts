@@ -114,7 +114,7 @@ test("Sentence callbacks provide timestamps and keys", () => {
   }
 });
 
-test("Sentence remaining returns remaining readings", () => {
+test("Sentence remaining returns current character patterns", () => {
   const sentence = new Sentence({
     text: "ab",
     reading: "ab",
@@ -124,7 +124,7 @@ test("Sentence remaining returns remaining readings", () => {
     ],
   });
 
-  assert.deepEqual(sentence.remaining, ["a", "b"]);
+  assert.deepEqual(sentence.remaining, ["a"]);
 
   sentence.input("a");
   assert.deepEqual(sentence.remaining, ["b"]);
