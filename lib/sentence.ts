@@ -31,11 +31,11 @@ export class Sentence {
   }
 
   start(): void {
-    this.options.onSentenceStarted?.({ startedAt: Date.now() });
     const current = this.currentCharacter;
     if (!current) {
       return;
     }
+    this.options.onSentenceStarted?.({ startedAt: Date.now() });
     current.start();
   }
 
