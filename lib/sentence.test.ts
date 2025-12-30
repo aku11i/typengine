@@ -12,7 +12,9 @@ test("Sentence input returns accepted/completed/remaining", () => {
       { reading: "し", patterns: ["shi", "si"] },
     ],
   });
-  assert.equal(sentence.currentCharacter.definition.reading, "す");
+  const current = sentence.currentCharacter;
+  assert.ok(current);
+  assert.equal(current.definition.reading, "す");
 
   assert.deepEqual(sentence.input("s"), {
     accepted: true,

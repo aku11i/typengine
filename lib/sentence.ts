@@ -39,11 +39,22 @@ export class Sentence {
 
   start(): void {
     this.options.onSentenceStarted?.({ startedAt: Date.now() });
-    this.currentCharacter.start();
+    const current = this.currentCharacter;
+    if (!current) {
+      return;
+    }
+    current.start();
   }
 
   input(value: string): InputResult {
     const current = this.currentCharacter;
+    if (!current) {
+      return {
+        accepted: false,
+        completed: true,
+        remaining: [],
+      };
+    }
 
     const result = current.input(value);
     if (!result.accepted) {
@@ -83,12 +94,8 @@ export class Sentence {
     return this.state.typedValue;
   }
 
-  get currentCharacter(): Character {
-    const current = this.characters[this.state.position];
-    if (!current) {
-      throw new Error("Current character is missing.");
-    }
-    return current;
+  get currentCharacter(): Character | null {
+    return this.characters[this.state.position] ?? null;
   }
 
   get remaining(): string[] {
