@@ -59,25 +59,15 @@ export class Sentence {
     }
 
     if (result.completed) {
-      let next: Character | null = null;
-      for (let index = currentPosition + 1; index < this.characters.length; index += 1) {
-        if (!this.characters[index].completed) {
-          next = this.characters[index];
-          break;
-        }
-      }
-      if (!next) {
+      const completed = this.position >= this.characters.length;
+      if (completed) {
         this.options.onSentenceCompleted?.({ completedAt: Date.now() });
-        return {
-          ...result,
-          completed: true,
-        };
+      } else {
+        this.currentCharacter?.start();
       }
-
-      next.start();
       return {
         ...result,
-        completed: false,
+        completed,
       };
     }
 
