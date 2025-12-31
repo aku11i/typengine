@@ -12,14 +12,9 @@ export type SessionInputResult = {
   sentenceCompleted: boolean;
 };
 
-export type SessionState = {
-  position: number;
-};
-
 export class Session {
   public readonly sentences: Sentence[];
   private readonly options: SessionOptions;
-  private state: SessionState;
 
   constructor(sentences: Sentence[], options: SessionOptions = {}) {
     if (sentences.length === 0) {
@@ -28,16 +23,22 @@ export class Session {
 
     this.sentences = sentences;
     this.options = options;
-    this.state = { position: 0 };
   }
 
   start(): void {
+    const current = this.currentSentence;
+    if (!current) {
+      throw new Error("Cannot start a completed session.");
+    }
     this.options.onSessionStarted?.({ startedAt: Date.now() });
-    this.currentSentence.start();
+    current.start();
   }
 
   input(value: string): SessionInputResult {
     const current = this.currentSentence;
+    if (!current) {
+      throw new Error("Cannot input to a completed session.");
+    }
     const result = current.input(value);
     const remaining = current.currentCharacter?.remainingPatterns ?? [];
 
@@ -50,7 +51,7 @@ export class Session {
       };
     }
 
-    const sentenceCompleted = current.currentCharacter === null;
+    const sentenceCompleted = current.completed;
     if (!sentenceCompleted) {
       return {
         accepted: true,
@@ -60,11 +61,7 @@ export class Session {
       };
     }
 
-    const nextPosition = this.state.position + 1;
-    const next = this.sentences[nextPosition];
-    this.state.position = nextPosition;
-
-    if (!next) {
+    if (this.completed) {
       this.options.onSessionCompleted?.({ completedAt: Date.now() });
       return {
         accepted: true,
@@ -74,7 +71,7 @@ export class Session {
       };
     }
 
-    next.start();
+    this.currentSentence?.start();
 
     return {
       accepted: true,
@@ -84,19 +81,21 @@ export class Session {
     };
   }
 
-  get currentSentence(): Sentence {
-    const current = this.sentences[this.state.position];
-    if (!current) {
-      throw new Error("Current sentence is missing.");
-    }
-    return current;
+  get currentSentence(): Sentence | null {
+    const current = this.sentences[this.position];
+    return current ?? null;
   }
 
   get position(): number {
-    return this.state.position;
+    for (let index = 0; index < this.sentences.length; index += 1) {
+      if (!this.sentences[index].completed) {
+        return index;
+      }
+    }
+    return -1;
   }
 
   get completed(): boolean {
-    return this.state.position >= this.sentences.length;
+    return this.position < 0;
   }
 }
