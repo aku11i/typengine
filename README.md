@@ -1,11 +1,11 @@
-# typing-engine
+# Typengine
 
 Core library for building typing apps/games on any JavaScript runtime.
 
 ## Usage (draft)
 
 ```ts
-import { Sentence, createJapaneseSentenceDefinition } from "typing-engine";
+import { Sentence, createJapaneseSentenceDefinition } from "typengine";
 
 const definition = createJapaneseSentenceDefinition("寿司", "すし");
 const sentence = new Sentence(definition);
@@ -21,7 +21,7 @@ const result = sentence.input("i");
 ```
 
 ```ts
-import { Session, Sentence, createJapaneseSentenceDefinition } from "typing-engine";
+import { Session, Sentence, createJapaneseSentenceDefinition } from "typengine";
 
 const sentences = [
   new Sentence(createJapaneseSentenceDefinition("寿司", "すし")),
