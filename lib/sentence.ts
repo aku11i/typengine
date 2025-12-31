@@ -42,9 +42,7 @@ export class Sentence {
   input(value: string): InputResult {
     const current = this.currentCharacter;
     if (!current) {
-      return {
-        accepted: false,
-      };
+      throw new Error("Cannot input to a completed sentence.");
     }
 
     const result = current.input(value);
@@ -52,14 +50,17 @@ export class Sentence {
       return result;
     }
 
-    if (current.completed) {
-      const completed = this.completed;
-      if (completed) {
-        this.options.onSentenceCompleted?.({ completedAt: Date.now() });
-      } else {
-        this.currentCharacter?.start();
-      }
+    if (!current.completed) {
+      return result;
     }
+
+    const next = this.currentCharacter;
+    if (next) {
+      next.start();
+      return result;
+    }
+
+    this.options.onSentenceCompleted?.({ completedAt: Date.now() });
 
     return result;
   }
