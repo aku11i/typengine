@@ -42,13 +42,18 @@ export class Session {
       return result;
     }
 
-    if (current.completed && this.completed) {
-      this.options.onSessionCompleted?.({ completedAt: Date.now() });
+    if (!current.completed) {
+      return result;
     }
 
-    if (current.completed) {
-      this.currentSentence?.start();
+    const next = this.currentSentence;
+
+    if (next) {
+      next.start();
+      return result;
     }
+
+    this.options.onSessionCompleted?.({ completedAt: Date.now() });
 
     return result;
   }
