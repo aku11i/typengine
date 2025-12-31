@@ -3,12 +3,12 @@
   "version": "0.0.1",
   "description": "Core library for building typing apps and games.",
   "keywords": [
+    "japanese",
+    "keyboard",
+    "romaji",
     "typing",
     "typing-game",
-    "typing-practice",
-    "keyboard",
-    "japanese",
-    "romaji"
+    "typing-practice"
   ],
   "license": "MIT",
   "files": [
