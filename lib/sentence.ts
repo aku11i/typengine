@@ -11,16 +11,10 @@ export type SentenceOptions = {
   onCharacterCompleted?: (payload: { completedAt: number }) => void;
 };
 
-export type SentenceState = {
-  position: number;
-  typedValue: string;
-};
-
 export class Sentence {
   public readonly definition: SentenceDefinition;
   private readonly characters: Character[];
   private readonly options: SentenceOptions;
-  private state: SentenceState;
 
   constructor(definition: SentenceDefinition, options: SentenceOptions = {}) {
     this.definition = definition;
@@ -34,68 +28,74 @@ export class Sentence {
     this.characters = definition.characters.map(
       (character) => new Character(character, characterOptions),
     );
-    this.state = { position: 0, typedValue: "" };
   }
 
   start(): void {
+    const current = this.currentCharacter;
+    if (!current) {
+      throw new Error("Cannot start an empty sentence.");
+    }
     this.options.onSentenceStarted?.({ startedAt: Date.now() });
-    this.currentCharacter.start();
+    current.start();
   }
 
   input(value: string): InputResult {
     const current = this.currentCharacter;
+    if (!current) {
+      throw new Error("Cannot input to a completed sentence.");
+    }
 
     const result = current.input(value);
     if (!result.accepted) {
-      return {
-        ...result,
-        completed: false,
-      };
+      return result;
     }
 
-    this.state.typedValue += value;
+    if (!current.completed) {
+      return result;
+    }
 
-    if (result.completed) {
-      this.state.position += 1;
-      const next = this.characters[this.state.position];
-      if (!next) {
-        this.options.onSentenceCompleted?.({ completedAt: Date.now() });
-        return {
-          ...result,
-          completed: true,
-        };
-      }
-
+    const next = this.currentCharacter;
+    if (next) {
       next.start();
-      return {
-        accepted: true,
-        completed: false,
-        remaining: next.remaining,
-      };
+      return result;
     }
 
-    return {
-      ...result,
-      completed: false,
-    };
+    this.options.onSentenceCompleted?.({ completedAt: Date.now() });
+
+    return result;
   }
 
   get typed(): string {
-    return this.state.typedValue;
+    return this.characters.map((character) => character.typed).join("");
   }
 
-  get currentCharacter(): Character {
-    const current = this.characters[this.state.position];
-    if (!current) {
-      throw new Error("Current character is missing.");
+  get currentCharacter(): Character | null {
+    const current = this.characters[this.position];
+    return current ?? null;
+  }
+
+  get position(): number {
+    for (let index = 0; index < this.characters.length; index += 1) {
+      if (!this.characters[index].completed) {
+        return index;
+      }
     }
-    return current;
+    return -1;
   }
 
-  get display(): { text: string; reading: string } {
-    return {
-      text: this.definition.text,
-      reading: this.definition.reading,
-    };
+  get completed(): boolean {
+    return this.position < 0;
+  }
+
+  get previewPattern(): string {
+    return this.characters.map((character) => character.previewPattern).join("");
+  }
+
+  get text(): string {
+    return this.definition.text;
+  }
+
+  get reading(): string {
+    return this.definition.reading;
   }
 }

@@ -3,7 +3,7 @@ import test from "node:test";
 
 import { Sentence } from "./sentence.ts";
 
-test("Sentence input returns accepted/completed/remaining", () => {
+test("Sentence input returns accepted and advances characters", () => {
   const sentence = new Sentence({
     text: "寿司",
     reading: "すし",
@@ -12,35 +12,25 @@ test("Sentence input returns accepted/completed/remaining", () => {
       { reading: "し", patterns: ["shi", "si"] },
     ],
   });
-  assert.equal(sentence.currentCharacter.definition.reading, "す");
+  const current = sentence.currentCharacter;
+  assert.ok(current);
+  assert.equal(current.definition.reading, "す");
 
-  assert.deepEqual(sentence.input("s"), {
-    accepted: true,
-    completed: false,
-    remaining: ["u"],
-  });
+  assert.deepEqual(sentence.input("s"), { accepted: true });
   assert.equal(sentence.typed, "s");
+  assert.deepEqual(sentence.currentCharacter?.remainingPatterns, ["u"]);
 
-  assert.deepEqual(sentence.input("u"), {
-    accepted: true,
-    completed: false,
-    remaining: ["shi", "si"],
-  });
+  assert.deepEqual(sentence.input("u"), { accepted: true });
   assert.equal(sentence.typed, "su");
+  assert.deepEqual(sentence.currentCharacter?.remainingPatterns, ["shi", "si"]);
 
-  assert.deepEqual(sentence.input("s"), {
-    accepted: true,
-    completed: false,
-    remaining: ["hi", "i"],
-  });
+  assert.deepEqual(sentence.input("s"), { accepted: true });
   assert.equal(sentence.typed, "sus");
+  assert.deepEqual(sentence.currentCharacter?.remainingPatterns, ["hi", "i"]);
 
-  assert.deepEqual(sentence.input("i"), {
-    accepted: true,
-    completed: true,
-    remaining: [""],
-  });
+  assert.deepEqual(sentence.input("i"), { accepted: true });
   assert.equal(sentence.typed, "susi");
+  assert.equal(sentence.currentCharacter, null);
 });
 
 test("Sentence completes when any pattern is fully consumed", () => {
@@ -50,12 +40,9 @@ test("Sentence completes when any pattern is fully consumed", () => {
     characters: [{ reading: "a", patterns: ["a"] }],
   });
 
-  assert.deepEqual(sentence.input("a"), {
-    accepted: true,
-    completed: true,
-    remaining: [""],
-  });
+  assert.deepEqual(sentence.input("a"), { accepted: true });
   assert.equal(sentence.typed, "a");
+  assert.equal(sentence.currentCharacter, null);
 });
 
 test("Sentence callbacks provide timestamps and keys", () => {
@@ -94,22 +81,27 @@ test("Sentence callbacks provide timestamps and keys", () => {
     assert.deepEqual(sentenceStarted, [{ startedAt: 1 }]);
     assert.deepEqual(characterStarted, [{ startedAt: 2 }]);
 
-    assert.deepEqual(sentence.input("x"), {
-      accepted: false,
-      completed: false,
-      remaining: ["a"],
-    });
+    assert.deepEqual(sentence.input("x"), { accepted: false });
     assert.deepEqual(characterMistyped, [{ typedAt: 3, key: "x" }]);
 
-    assert.deepEqual(sentence.input("a"), {
-      accepted: true,
-      completed: true,
-      remaining: [""],
-    });
+    assert.deepEqual(sentence.input("a"), { accepted: true });
     assert.deepEqual(characterTyped, [{ typedAt: 4, key: "a" }]);
     assert.deepEqual(characterCompleted, [{ completedAt: 4 }]);
     assert.deepEqual(sentenceCompleted, [{ completedAt: 5 }]);
   } finally {
     Date.now = originalNow;
   }
+});
+
+test("Sentence previewPattern returns character previews", () => {
+  const sentence = new Sentence({
+    text: "し",
+    reading: "し",
+    characters: [{ reading: "し", patterns: ["shi", "si"] }],
+  });
+
+  assert.equal(sentence.previewPattern, "shi");
+
+  sentence.input("s");
+  assert.equal(sentence.previewPattern, "shi");
 });

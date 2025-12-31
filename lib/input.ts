@@ -5,16 +5,12 @@ export type InputState = {
 
 export type InputResult = {
   accepted: boolean;
-  completed: boolean;
-  remaining: string[];
 };
 
 export const input = (state: InputState, value: string): InputResult => {
   if (state.remainingPatterns.some((pattern) => pattern.length === 0)) {
     return {
       accepted: false,
-      completed: true,
-      remaining: [...state.remainingPatterns],
     };
   }
 
@@ -24,8 +20,6 @@ export const input = (state: InputState, value: string): InputResult => {
   if (nextPatterns.length === 0) {
     return {
       accepted: false,
-      completed: false,
-      remaining: [...state.remainingPatterns],
     };
   }
 
@@ -34,7 +28,5 @@ export const input = (state: InputState, value: string): InputResult => {
 
   return {
     accepted: true,
-    completed: nextPatterns.some((pattern) => pattern.length === 0),
-    remaining: [...nextPatterns],
   };
 };

@@ -16,8 +16,19 @@ sentence.input("s");
 const result = sentence.input("i");
 // result example:
 // {
-//   accepted: boolean;   // whether this keystroke was accepted
-//   completed: boolean;  // whether the whole sentence is completed
-//   remaining: string[]; // currently valid patterns for the current character
+//   accepted: boolean; // whether this keystroke was accepted
 // }
+```
+
+```ts
+import { Session, Sentence, createJapaneseSentenceDefinition } from "typing-engine";
+
+const sentences = [
+  new Sentence(createJapaneseSentenceDefinition("寿司", "すし")),
+  new Sentence(createJapaneseSentenceDefinition("天ぷら", "てんぷら")),
+];
+
+const session = new Session(sentences);
+session.start();
+session.input("s");
 ```

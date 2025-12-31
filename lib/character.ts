@@ -36,7 +36,7 @@ export class Character {
     }
 
     this.options.onCharacterTyped?.({ typedAt, key: value });
-    if (result.completed) {
+    if (this.completed) {
       this.options.onCharacterCompleted?.({ completedAt: typedAt });
     }
 
@@ -47,8 +47,13 @@ export class Character {
     return this.state.typedValue;
   }
 
-  get remaining(): string[] {
+  get remainingPatterns(): string[] {
     return [...this.state.remainingPatterns];
+  }
+
+  get previewPattern(): string {
+    const [pattern] = this.state.remainingPatterns;
+    return `${this.state.typedValue}${pattern ?? ""}`;
   }
 
   get completed(): boolean {
