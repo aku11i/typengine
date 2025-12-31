@@ -7,9 +7,6 @@ export type SessionOptions = {
 
 export type SessionInputResult = {
   accepted: boolean;
-  completed: boolean;
-  remaining: string[];
-  sentenceCompleted: boolean;
 };
 
 export class Session {
@@ -40,45 +37,20 @@ export class Session {
       throw new Error("Cannot input to a completed session.");
     }
     const result = current.input(value);
-    const remaining = current.currentCharacter?.remainingPatterns ?? [];
 
     if (!result.accepted) {
-      return {
-        accepted: false,
-        completed: false,
-        sentenceCompleted: false,
-        remaining,
-      };
+      return result;
     }
 
-    const sentenceCompleted = current.completed;
-    if (!sentenceCompleted) {
-      return {
-        accepted: true,
-        completed: false,
-        sentenceCompleted: false,
-        remaining,
-      };
-    }
-
-    if (this.completed) {
+    if (current.completed && this.completed) {
       this.options.onSessionCompleted?.({ completedAt: Date.now() });
-      return {
-        accepted: true,
-        completed: true,
-        sentenceCompleted: true,
-        remaining,
-      };
     }
 
-    this.currentSentence?.start();
+    if (current.completed) {
+      this.currentSentence?.start();
+    }
 
-    return {
-      accepted: true,
-      completed: false,
-      sentenceCompleted: true,
-      remaining,
-    };
+    return result;
   }
 
   get currentSentence(): Sentence | null {
