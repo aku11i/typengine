@@ -59,4 +59,4 @@ jobs:
           NPM_CONFIG_PROVENANCE: true
           NPM_CONFIG_REGISTRY: https://registry.npmjs.org
           NPM_CONFIG_ALWAYS_AUTH: true
-        run: pnpm publish --provenance --no-git-checks --tag ${{ steps.dist_tag.outputs.npm_tag }}
+        run: pnpm publish --access public --provenance --no-git-checks --tag ${{ steps.dist_tag.outputs.npm_tag }}
