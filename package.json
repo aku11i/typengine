@@ -1,6 +1,16 @@
 {
-  "name": "typing-engine",
-  "version": "0.0.0",
+  "name": "typengine",
+  "version": "0.0.1",
+  "description": "Core library for building typing apps and games.",
+  "keywords": [
+    "typing",
+    "typing-game",
+    "typing-practice",
+    "keyboard",
+    "japanese",
+    "romaji"
+  ],
+  "license": "MIT",
   "files": [
     "dist",
     "LICENSE",
