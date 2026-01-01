@@ -11,6 +11,10 @@
     "typing-practice"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aku11i/typengine"
+  },
   "files": [
     "dist",
     "LICENSE",
