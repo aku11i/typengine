@@ -11,7 +11,7 @@ test("createJapaneseSentenceDefinition builds patterns from hiragana", () => {
     reading: "すしがたべたい",
     characters: [
       { reading: "す", patterns: ["su"] },
-      { reading: "し", patterns: ["shi", "si"] },
+      { reading: "し", patterns: ["si", "shi"] },
       { reading: "が", patterns: ["ga"] },
       { reading: "た", patterns: ["ta"] },
       { reading: "べ", patterns: ["be"] },
@@ -74,6 +74,7 @@ test("createJapaneseSentenceDefinition preserves multiple romanization options",
   const definition = createJapaneseSentenceDefinition("しをん", "しをん");
 
   assert.equal(definition.characters.length, 3);
+  assert.equal(definition.characters[0].patterns[0], "si");
   assert.ok(definition.characters[0].patterns.includes("shi"));
   assert.ok(definition.characters[0].patterns.includes("si"));
   assert.ok(definition.characters[1].patterns.includes("wo"));
@@ -130,4 +131,21 @@ test("createJapaneseSentenceDefinition supports various brackets", () => {
   assert.equal(definition.characters.length, 7);
   assert.deepEqual(definition.characters[0], { reading: "「", patterns: ["["] });
   assert.deepEqual(definition.characters[6], { reading: "」", patterns: ["]"] });
+});
+
+test("createJapaneseSentenceDefinition supports special combinations with small vowels", () => {
+  const definition = createJapaneseSentenceDefinition("てぃーでぃー", "てぃーでぃー");
+
+  assert.equal(definition.characters.length, 4);
+  assert.equal(definition.characters[0].reading, "てぃ");
+  assert.equal(definition.characters[0].patterns[0], "thi");
+  assert.ok(definition.characters[0].patterns.includes("thi"));
+  assert.ok(definition.characters[0].patterns.includes("texi"));
+
+  assert.deepEqual(definition.characters[1], { reading: "ー", patterns: ["-"] });
+
+  assert.equal(definition.characters[2].reading, "でぃ");
+  assert.equal(definition.characters[2].patterns[0], "dhi");
+  assert.ok(definition.characters[2].patterns.includes("dhi"));
+  assert.ok(definition.characters[2].patterns.includes("dexi"));
 });
