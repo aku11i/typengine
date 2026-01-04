@@ -96,7 +96,10 @@ test("createJapaneseSentenceDefinition throws on unsupported hiragana", () => {
 });
 
 test("createJapaneseSentenceDefinition supports Japanese punctuation", () => {
-  const definition = createJapaneseSentenceDefinition("こんにちは、元気ですか？", "こんにちは、げんきですか？");
+  const definition = createJapaneseSentenceDefinition(
+    "こんにちは、元気ですか？",
+    "こんにちは、げんきですか？",
+  );
 
   assert.equal(definition.characters.length, 13);
   assert.deepEqual(definition.characters[5], { reading: "、", patterns: [","] });
