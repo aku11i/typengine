@@ -94,3 +94,37 @@ test("createJapaneseSentenceDefinition adds consonant patterns for small tsu", (
 test("createJapaneseSentenceDefinition throws on unsupported hiragana", () => {
   assert.throws(() => createJapaneseSentenceDefinition("ぁ", "ぁ"), /Unsupported hiragana/);
 });
+
+test("createJapaneseSentenceDefinition supports Japanese punctuation", () => {
+  const definition = createJapaneseSentenceDefinition("こんにちは、元気ですか？", "こんにちは、げんきですか？");
+
+  assert.equal(definition.characters.length, 13);
+  assert.deepEqual(definition.characters[5], { reading: "、", patterns: [","] });
+  assert.deepEqual(definition.characters[12], { reading: "？", patterns: ["?"] });
+});
+
+test("createJapaneseSentenceDefinition supports Japanese symbols", () => {
+  const definition = createJapaneseSentenceDefinition("ラーメン！", "らーめん！");
+
+  assert.equal(definition.characters.length, 5);
+  assert.deepEqual(definition.characters[0], { reading: "ら", patterns: ["ra"] });
+  assert.deepEqual(definition.characters[1], { reading: "ー", patterns: ["-"] });
+  assert.deepEqual(definition.characters[2], { reading: "め", patterns: ["me"] });
+  assert.deepEqual(definition.characters[3], { reading: "ん", patterns: ["n"] });
+  assert.deepEqual(definition.characters[4], { reading: "！", patterns: ["!"] });
+});
+
+test("createJapaneseSentenceDefinition supports sentence with period", () => {
+  const definition = createJapaneseSentenceDefinition("わかりました。", "わかりました。");
+
+  assert.equal(definition.characters.length, 7);
+  assert.deepEqual(definition.characters[6], { reading: "。", patterns: ["."] });
+});
+
+test("createJapaneseSentenceDefinition supports various brackets", () => {
+  const definition = createJapaneseSentenceDefinition("「こんにちは」", "「こんにちは」");
+
+  assert.equal(definition.characters.length, 7);
+  assert.deepEqual(definition.characters[0], { reading: "「", patterns: ["["] });
+  assert.deepEqual(definition.characters[6], { reading: "」", patterns: ["]"] });
+});

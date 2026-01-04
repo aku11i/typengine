@@ -105,6 +105,25 @@ const KANA_ROMAJI_MAP: Record<string, string[]> = {
   ぴゃ: ["pya", "pilya", "pixya"],
   ぴゅ: ["pyu", "pilyu", "pixyu"],
   ぴょ: ["pyo", "pilyo", "pixyo"],
+  // Punctuation and symbols
+  "、": [","],
+  "。": ["."],
+  "！": ["!"],
+  "？": ["?"],
+  "ー": ["-"],
+  "「": ["["],
+  "」": ["]"],
+  "・": ["/"],
+  "～": ["~"],
+  "〜": ["~"],
+  "：": [":"],
+  "；": [";"],
+  "（": ["("],
+  "）": [")"],
+  "【": ["["],
+  "】": ["]"],
+  "『": ["["],
+  "』": ["]"],
 };
 
 const SMALL_TSU_PATTERNS = ["ltu", "ltsu", "xtu", "xtsu"];
