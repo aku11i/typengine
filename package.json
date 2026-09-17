@@ -44,7 +44,7 @@
     "@typescript/native-preview": "7.0.0-dev.20260707.2",
     "oxfmt": "^0.67.0",
     "oxlint": "^1.35.0",
-    "tsdown": "^0.22.0",
+    "tsdown": "^0.23.0",
     "typescript": "^5.9.3"
   },
   "packageManager": "pnpm@10.8.1"
