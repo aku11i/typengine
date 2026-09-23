@@ -21,7 +21,7 @@ jobs:
           ref: ${{ github.event.release.tag_name }}
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413
         with:
           version: 10.8.1
 
